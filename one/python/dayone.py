@@ -1,6 +1,6 @@
 def main():
-    with open('input.txt') as f:
-    #with open('example.txt') as f:
+    with open('one/python/input.txt') as f:
+    #with open('one/python/example.txt') as f:
         lines = f.readlines()
 
     global count
@@ -8,23 +8,20 @@ def main():
 
     def next(location:int, step:str) -> int:
         global count
-        direction = step[0]
+        direction = 1 if step[0] == 'R' else -1
         steps = int(step[1:])
 
-        location = location + steps if direction == 'R' else location - steps
-        #print("location", location, direction, steps)
+        start = location
+        end = start + direction*steps
 
-        location %=100
+        low = min(start, end)
+        high = max(start, end)
 
-        if location >= 100:
-            location -= 100
-        elif location < 0:
-            location += 100
+        count += high//100 - (low-1)//100
+        if start % 100 == 0:
+            count -= 1
 
-        if location == 0:
-            count += 1
-
-        return location
+        return end%100
 
     location = 50
     for line in lines:
